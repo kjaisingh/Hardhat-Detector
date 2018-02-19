@@ -17,7 +17,7 @@ def create_pos_n_neg():
 				with open('bg.txt', 'a') as f:
 					f.write(line)
 			elif file_type == 'pos':
-                		line = file_type+'/'+img+' 1 0 0 50 50\n'
+                		line = file_type+'/'+img+' 1 0 0 100 100\n'
                 		with open('info.dat','a') as f:
                     			f.write(line)
 
