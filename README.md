@@ -1,4 +1,4 @@
-# hardhat-detector
+# Hardhat Detector
 A Convolutional Neural Network implementation of a script that detects whether an individual is wearing a hardhat or not.
 
 
