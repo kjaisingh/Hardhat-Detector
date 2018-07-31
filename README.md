@@ -35,4 +35,3 @@ python cnn.py
 ~~~~
 python classify.py -i <imageFileName>
 ~~~~~~~~ 
-
