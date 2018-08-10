@@ -16,22 +16,18 @@ python download-neg-images.py
 python download-pos-images.py
 ~~~~~~~~ 
 
-3. Create a text file that holds the information for all images downloaded.
-~~~~
-python store-images.py
-~~~~~~~~ 
 
-4. Split the downloaded images into training and test set, and sorts them into directories suitable for use with Keras functions.
+3. Split the downloaded images into training and test set, and sorts them into directories suitable for use with Keras functions.
 ~~~~
 python sort_train_and_test.py
 ~~~~~~~~ 
 
-5. Create and train the convolutional neural network.
+4. Create and train the convolutional neural network.
 ~~~~
 python cnn.py
 ~~~~~~~~ 
 
-6. Pass in images to be scanned for the presence of hardhats using the parser argument -i, with <imageFileName> being a placeholder for the file name of the image. The default is 'test_pos.jpg', also part of the repository. The classification result is printed in the console.
+5. Pass in images to be scanned for the presence of hardhats using the parser argument -i, with <imageFileName> being a placeholder for the file name of the image. The default is 'test_pos.jpg', also part of the repository. The classification result is printed in the console.
 ~~~~
 python classify.py -i <imageFileName>
 ~~~~~~~~ 
