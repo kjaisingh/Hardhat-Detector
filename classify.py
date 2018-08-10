@@ -22,5 +22,5 @@ classifier = load_model('detection_model.h5')
 img = cv2.imread(fileName)
 img = cv2.resize(img, (300, 300))
 
-predictedClass = classifier.predict_classes(imgData)
+predictedClass = classifier.predict_classes(img)
 print('The predicted class for the input image is: ', predictedClass)
