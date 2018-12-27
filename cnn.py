@@ -65,5 +65,4 @@ classifier.fit_generator(training_set,
 
 print("CNN Network Trained")
 classifier.save('detection_model.h5')
-del classifier
 print("CNN Network Saved")
