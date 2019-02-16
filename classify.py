@@ -23,6 +23,13 @@ img = cv2.imread(fileName)
 img = cv2.resize(img, (300, 300))
 img /= 255.0
 
+result = model.predict(img)
+pred = np.argmax(result, axis=1)
+prediction = "UNRECOGNIZABLE"
 
-predictedClass = classifier.predict_classes(img)
+if(pred[0] == 0):
+    prediction = "No hardhat"
+else:
+    prediction = "Hardhat"
+
 print('The predicted class for the input image is: ', predictedClass)
