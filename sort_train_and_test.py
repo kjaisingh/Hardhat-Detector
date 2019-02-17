@@ -18,7 +18,7 @@ pos = len(pos_files)
 neg_train = int(neg * 0.8)
 neg_test = neg - neg_train
 
-pos_train = int(pos * 0.75)
+pos_train = int(pos * 0.8)
 pos_test = pos - pos_train
 
 os.makedirs('train/neg')

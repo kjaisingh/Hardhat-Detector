@@ -5,9 +5,10 @@ Created on Mon Feb 19 18:28:40 2018
 
 @author: KaranJaisingh
 """
-
+# import required libraries
 import numpy as np
 import pandas as pd
+from imutils import paths
 
 from keras.models import Sequential
 from keras.layers import Conv2D
@@ -16,14 +17,36 @@ from keras.layers import Flatten
 from keras.layers import Dense
 from keras.layers import Dropout
 
+
+# override truncated images error
+from PIL import ImageFile
+ImageFile.LOAD_TRUNCATED_IMAGES = True
+
+
+# define constants and parameters
+train_data_dir = "train"
+test_data_dir = "test"
+TRAIN = len(list(paths.list_images(train_data_dir)))
+TEST = len(list(paths.list_images(test_data_dir)))
+BS = 8
+EPOCHS = 20
+img_width, img_height = 300, 300
+
+
+# create CNN model outline
 classifier = Sequential()
 
-classifier.add(Conv2D(128, (2,2), input_shape = (300, 300, 3), activation = 'relu'))
+classifier.add(Conv2D(128, (2,2), 
+                      input_shape = (img_width, img_height, 3), 
+                      activation = 'relu'))
 classifier.add(MaxPooling2D(pool_size = (2, 2)))
 
 classifier.add(Conv2D(64, (3,3), activation = 'relu'))
+classifier.add(Conv2D(64, (2,2), activation = 'relu'))
+classifier.add(Conv2D(64, (1,1), activation = 'relu'))
 classifier.add(MaxPooling2D(pool_size = (2, 2)))
 
+classifier.add(Conv2D(32, (2,2), activation = 'relu'))
 classifier.add(Conv2D(32, (2,2), activation = 'relu'))
 classifier.add(MaxPooling2D(pool_size = (2, 2)))
 
@@ -33,36 +56,48 @@ classifier.add(Dense(units = 128, activation = 'relu'))
 classifier.add(Dropout(0.3))
 classifier.add(Dense(units = 10, activation = 'relu'))
 classifier.add(Dropout(0.3))
-classifier.add(Dense(units = 2, activation = 'softmax'))
-
-classifier.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = ['accuracy'])
+classifier.add(Dense(units = 1, activation = 'sigmoid'))
 
 
+# compile model
+classifier.compile(optimizer = 'adam', 
+                   loss = 'binary_crossentropy', 
+                   metrics = ['accuracy'])
+
+
+# create data generators and data pathways
 from keras.preprocessing.image import ImageDataGenerator
 
-train_datagen = ImageDataGenerator(rescale = 1./255,
-                                   shear_range = 0.2,
-                                   zoom_range = 0.2,
-                                   horizontal_flip = True)
+trainAug = ImageDataGenerator(rescale = 1./255,
+                               shear_range = 0.2,
+                               zoom_range = 0.2,
+                               horizontal_flip = True,
+                               fill_mode = "nearest")
 
-test_datagen = ImageDataGenerator(rescale = 1./255)
+testAug = ImageDataGenerator(rescale = 1./255,
+                             fill_mode = "nearest")
 
-training_set = train_datagen.flow_from_directory('train',
-                                                 target_size = (300, 300),
-                                                 batch_size = 16,
-                                                 class_mode = 'binary')
+trainGen = trainAug.flow_from_directory('train',
+                                         target_size = (img_width, img_height),
+                                         batch_size = BS,
+                                         class_mode = 'binary')
 
-test_set = test_datagen.flow_from_directory('test',
-                                            target_size = (300, 300),
-                                            batch_size = 16,
-                                            class_mode = 'binary')
+testGen = testAug.flow_from_directory('test',
+                                    target_size = (img_width, img_height),
+                                    batch_size = BS,
+                                    class_mode = 'binary')
 
-classifier.fit_generator(training_set,
-                         samples_per_epoch = 8000,
-                         nb_epoch = 20,
-                         validation_data = test_set,
-                         nb_val_samples = 2000)
+classes = trainGen.class_indices    
+print(classes)
 
-print("CNN Network Trained")
-classifier.save('detection_model.h5')
-print("CNN Network Saved")
+
+# train model
+H = classifier.fit_generator(trainGen,
+                             epochs = EPOCHS,
+                             steps_per_epoch = TRAIN // BS)
+
+
+# print confirmation and save model
+print("CNN Trained")
+classifier.save('model.h5')
+print("CNN Saved")
