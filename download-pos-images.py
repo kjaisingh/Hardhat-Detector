@@ -20,17 +20,18 @@ def store_raw_images():
 
 	pic_num = 1
 
-	while(pic_num < 500):
-		for i in pos_image_urls.split('\n'):
-			try:
-				print(i)
-				urllib.request.urlretrieve(i, 'pos/'+str(pic_num)+'.jpg')
-				img = cv2.imread('pos/'+str(pic_num)+'.jpg')
-				resized_image = cv2.resize(img, (300, 300))
-				cv2.imwrite('pos/'+str(pic_num)+'.jpg', resized_image)
-				pic_num += 1                
+	for i in pos_image_urls.split('\n'):
+		try:
+			print(pic_num, i)
+			urllib.request.urlretrieve(i, 'pos/'+str(pic_num)+'.jpg')
+			img = cv2.imread('pos/'+str(pic_num)+'.jpg')
+			resized_image = cv2.resize(img, (300, 300))
+			cv2.imwrite('pos/'+str(pic_num)+'.jpg', resized_image)
+			pic_num += 1
+			if(pic_num > 1000):
+				return
 
-			except Exception as e:
-				print(str(e))
+		except Exception as e:
+			print(str(e))
 
 store_raw_images()
