@@ -28,7 +28,7 @@ python sort_train_and_test.py
 python cnn.py
 ~~~~~~~~ 
 
-6. Pass in images to be scanned for the presence of hardhats using the parser argument -i, with <imageFileName> being a placeholder for the file name of the image. The default is 'test_pos.jpg', also part of the repository. The classification result is printed in the console.
+6. Pass in images to be scanned for the presence of hardhats using the parser argument -i, with 'imageFileName' being a placeholder for the file name of the image. The default is 'test_pos.jpg', also part of the repository. The classification result is printed in the console.
 ~~~~
 python classify.py -i <imageFileName>
 ~~~~~~~~ 
