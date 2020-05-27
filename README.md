@@ -1,5 +1,5 @@
 # Hardhat Detector
-### Update in May 2020: Unfortunately, the ImageNet server will be down for an indefinite period of time, so the training image data generation process will not work until the server is back up.
+### (Update in May 2020: Unfortunately, the ImageNet server will be down for an indefinite period of time, so the training image data generation process will not work until the server is back up.)
 A Convolutional Neural Network implementation of a script that detects whether an individual is wearing a hardhat or not.
 
 
